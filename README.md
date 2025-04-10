@@ -19,6 +19,9 @@ Sistema de gerenciamento de tarefas para Laravel com suporte a Filament, que inc
 - Filament 3.x
 
 ## Instalação
+# Tasks Management
+
+## Instalação
 
 1. Adicione o repositório ao seu composer.json:
 ```json
@@ -27,33 +30,45 @@ Sistema de gerenciamento de tarefas para Laravel com suporte a Filament, que inc
         "type": "vcs",
         "url": "https://github.com/alessandronuunes/tasks-management"
     }
-] ```
+]
+```
+
 2. Instale o pacote:
 ```bash
-composer require alessandronuunes/tasks-management ```
+composer require alessandronuunes/tasks-management
+```
+
 3. Execute as migrações:
 ```bash
-php artisan migrate ```
+php artisan migrate
+```
+
 4. Publique os assets:
 ```bash
-php artisan vendor:publish --tag=public --force ```
+php artisan vendor:publish --tag=public --force
+```
 
 5. Publique as configurações:
 ```bash
-php artisan vendor:publish --tag=config --force ``` 
+php artisan vendor:publish --tag=config --force
+```
 
-Configuração
-O pacote inclui uma configuração que pode ser modificada no arquivo config/tasks-management.php.
+## Configuração
 
-Uso
+O pacote inclui uma configuração que pode ser modificada no arquivo `config/tasks-management.php`.
+
+## Uso
+
 O package adiciona automaticamente um novo recurso "Tarefas" ao seu painel Filament.
+
 Para relacionar tarefas com seus modelos, adicione ao arquivo de configuração:
 
-```bash
+```php
 'morphable_types' => [
     \App\Models\Lead::class => 'Leads',
 ],
 ```
+
 ## Contribuição
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
 ## Licença
