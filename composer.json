@@ -1,6 +1,6 @@
 {
     "name": "alessandronuunes/tasks-management",
-    "description": "Sistema de gerenciamento de tarefas para Laravel com suporte a Filament, que inclui recursos de atribuição de usuários, comentários, prioridades, status e tipos de tarefas. Possui suporte opcional a multitenancy, notificações e controle de leitura de tarefas.",
+    "description": "A tasks management plugin for Filament PHP",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -10,33 +10,39 @@
     },
     "authors": [
         {
-            "name": "alessandronuunes",
-            "email": "alessandronuunes@gmail.com"
+            "name": "Alessandro Nunes",
+            "email": "alessandro.nunes@live.com"
         }
     ],
     "require": {
-        "php": "^8.2",
-        "laravel/framework": "^11.0",
-        "filament/filament": "^3.2",
-        "filament/notifications": "^3.2",
-        "filament/forms": "^3.2",
-        "filament/tables": "^3.2"
-    },
-    "require-dev": {
-        "pestphp/pest": "^2.34",
-        "pestphp/pest-plugin-laravel": "^2.4",
-        "laravel/pint": "^1.13"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "config": {
-        "sort-packages": true
+        "php": "^8.1",
+        "filament/filament": "^3.0",
+        "spatie/laravel-package-tools": "^1.15.0"
     },
     "extra": {
         "laravel": {
             "providers": [
                 "Alessandronuunes\\TasksManagement\\TasksManagementServiceProvider"
             ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "analyse": "vendor/bin/phpstan analyse"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0",
+        "phpunit/phpunit": "^10.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpstan/phpstan": "^1.10"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Alessandronuunes\\TasksManagement\\Tests\\": "tests"
         }
     }
 }

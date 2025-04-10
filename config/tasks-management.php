@@ -1,31 +1,55 @@
 <?php
 
-declare(strict_types=1);
-
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Team Support
+    |--------------------------------------------------------------------------
+    |
+    | This option controls whether the plugin should support team functionality.
+    | When enabled, tasks will be scoped to teams.
+    |
+    */
+    'use_teams' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Models Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify custom models to use for tasks and related entities.
+    |
+    */
     'models' => [
-        'task' => Alessandronuunes\TasksManagement\Models\Task::class,
-        'user' => App\Models\User::class,
-        'team' => App\Models\Team::class,
-        'comment' => App\Models\Comment::class,
+        'task' => \Alessandronuunes\TasksManagement\Models\Task::class,
+        'comment' => \Alessandronuunes\TasksManagement\Models\Comment::class,
+        'user' => \App\Models\User::class,
+        'team' => null,
     ],
 
-    'tables' => [
-        'tasks' => 'tasks',
-        'task_user' => 'task_user',
+    /*
+    |--------------------------------------------------------------------------
+    | Notifications
+    |--------------------------------------------------------------------------
+    |
+    | Configure notification settings for tasks.
+    |
+    */
+    'notifications' => [
+        'enabled' => true,
+        'channels' => ['database', 'mail'],
     ],
 
-    'features' => [
-        'multitenancy' => false,
-    ],
-
-    'morphable_types' => [
-        // Define os tipos de modelos que podem ser relacionados com tarefas
-        // 'App\Models\Lead' => 'Leads',
-    ],
-
-    'navigation' => [
-        'group' => 'Tasks',
-        'sort' => 30,
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard Widgets
+    |--------------------------------------------------------------------------
+    |
+    | Configure which widgets should be displayed on the dashboard.
+    |
+    */
+    'widgets' => [
+        'tasks_overview' => true,
+        'latest_tasks' => true,
     ],
 ];

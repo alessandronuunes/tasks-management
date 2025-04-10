@@ -8,7 +8,7 @@ use Alessandronuunes\TasksManagement\Models\Task;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TaskUpdatedEvent
+class TaskCreatedEvent
 {
     use Dispatchable;
     use SerializesModels;
