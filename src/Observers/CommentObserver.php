@@ -13,7 +13,7 @@ class CommentObserver
         if (config('tasks-management.use_teams')) {
             $comment->team_id = auth()->user()->current_team_id;
         }
-        
+
         $comment->user_id = auth()->id();
     }
 }

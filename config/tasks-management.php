@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -21,9 +23,9 @@ return [
     |
     */
     'models' => [
-        'task' => \Alessandronuunes\TasksManagement\Models\Task::class,
-        'comment' => \Alessandronuunes\TasksManagement\Models\Comment::class,
-        'user' => \App\Models\User::class,
+        'task' => Alessandronuunes\TasksManagement\Models\Task::class,
+        'comment' => Alessandronuunes\TasksManagement\Models\Comment::class,
+        'user' => App\Models\User::class,
         'team' => null,
     ],
 

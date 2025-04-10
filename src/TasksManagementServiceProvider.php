@@ -31,7 +31,7 @@ class TasksManagementServiceProvider extends PackageServiceProvider
             ->hasMigrations([
                 'create_tasks_table',
                 'create_task_user_table',
-                'create_comments_table'
+                'create_comments_table',
             ])
             ->hasCommands([
                 Console\Commands\InstallCommand::class,
@@ -50,12 +50,12 @@ class TasksManagementServiceProvider extends PackageServiceProvider
             TaskCreatedEvent::class,
             [SendTaskCreatedNotification::class, 'handle']
         );
-    
+
         $this->app['events']->listen(
             TaskUpdatedEvent::class,
             [SendTaskUpdatedNotification::class, 'handle']
         );
-    
+
         if (config('tasks-management.use_teams')) {
             $this->app['router']->aliasMiddleware('ensure-team', EnsureTeamMiddleware::class);
         }

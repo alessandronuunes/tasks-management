@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Alessandronuunes\TasksManagement\Tests\Unit;
 
 use Alessandronuunes\TasksManagement\Models\Task;

@@ -4,19 +4,9 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement\Filament\Resources;
 
-use Alessandronuunes\TasksManagement\Enums\PriorityType;
-use Alessandronuunes\TasksManagement\Enums\TaskStatus;
-use Alessandronuunes\TasksManagement\Enums\TaskType;
-use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\Pages;
-use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\RelationManagers\CommentsRelationManager;
 use Alessandronuunes\TasksManagement\Models\Task;
-use Carbon\Carbon;
 use Filament\Forms;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;

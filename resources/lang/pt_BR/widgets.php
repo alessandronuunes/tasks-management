@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'total_tasks' => 'Total de Tarefas',
     'pending_tasks' => 'Tarefas Pendentes',

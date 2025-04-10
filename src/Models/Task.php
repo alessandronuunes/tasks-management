@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement\Models;
 
-use Alessandronuunes\TasksManagement\Observers\TaskObserver;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-
 use Alessandronuunes\TasksManagement\Enums\PriorityType;
 use Alessandronuunes\TasksManagement\Enums\TaskStatus;
 use Alessandronuunes\TasksManagement\Enums\TaskType;
-use Alessandronuunes\TasksManagement\Events\TaskCreated;
+use Alessandronuunes\TasksManagement\Observers\TaskObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -56,7 +54,7 @@ class Task extends Model
         if (! config('tasks-management.use_teams')) {
             return null;
         }
-        
+
         return $this->belongsTo(config('tasks-management.models.team'));
     }
 

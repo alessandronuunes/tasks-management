@@ -24,7 +24,7 @@ class SendNotifyTaskDatabase
                         ->label('Ver mensagem')
                         ->button()
                         ->markAsRead()
-                        ->url("/tasks/{$event->task->id}/edit")
+                        ->url("/tasks/{$event->task->id}/edit"),
                 ])
                 ->sendToDatabase($recipient);
         }
@@ -37,7 +37,7 @@ class SendNotifyTaskDatabase
         return (object) [
             'title' => __('tasks-management::notifications.task.created.title'),
             'body' => __('tasks-management::notifications.task.created.body', [
-                'user' => $user->full_name
+                'user' => $user->full_name,
             ]),
         ];
     }

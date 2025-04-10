@@ -23,7 +23,7 @@ class EditTask extends EditRecord
     protected function afterSave(): void
     {
         $record = $this->getRecord();
-        
+
         if (! $record->users()->where('users.id', auth()->id())->exists()) {
             $record->users()->attach(auth()->id(), ['read_at' => now()]);
         }

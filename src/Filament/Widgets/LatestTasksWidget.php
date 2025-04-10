@@ -20,8 +20,9 @@ class LatestTasksWidget extends BaseWidget
         return $table
             ->query(
                 Task::query()
-                    ->when(config('tasks-management.use_teams'), fn($query) => 
-                        $query->where('team_id', auth()->user()->current_team_id)
+                    ->when(
+                        config('tasks-management.use_teams'),
+                        fn ($query) => $query->where('team_id', auth()->user()->current_team_id)
                     )
                     ->latest()
                     ->limit(5)

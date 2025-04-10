@@ -21,7 +21,7 @@ class SendTaskCreatedNotification
                 ->actions([
                     Action::make('view')
                         ->button()
-                        ->url(TaskResource::getUrl('edit', ['record' => $event->task]))
+                        ->url(TaskResource::getUrl('edit', ['record' => $event->task])),
                 ])
                 ->sendToDatabase($user);
         }
