@@ -4,80 +4,95 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement\Filament\Resources;
 
-use Alessandronuunes\TasksManagement\Models\Task;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Alessandronuunes\TasksManagement\Models\Task;
+use Alessandronuunes\TasksManagement\Enums\TaskType;
+use Alessandronuunes\TasksManagement\Enums\PriorityType;
+use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\Pages;
 
 class TaskResource extends Resource
 {
     protected static ?string $model = Task::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
-
-    protected static ?int $navigationSort = 30;
-
-    public static function getLabel(): string
-    {
-        return __('tasks-management::tasks.label.singular');
-    }
-
-    public static function getPluralLabel(): string
-    {
-        return __('tasks-management::tasks.label.plural');
-    }
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Tabs::make()
-                    ->columnSpanFull()
-                    ->extraAttributes(['class' => '!ring-0 !shadow-none'])
-                    ->tabs([
-                        Forms\Components\Tabs\Tab::make(__('tasks-management::tasks.tabs.basic'))
-                            ->columns(12)
-                            ->schema(static::getFieldsTasksBasic()),
-                        Forms\Components\Tabs\Tab::make(__('tasks-management::tasks.tabs.advanced'))
-                            ->schema(static::getFieldsTasksAdvanced()),
-                    ]),
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Textarea::make('description')
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'in_progress' => 'In Progress',
+                        'completed' => 'Completed',
+                    ])
+                    ->required(),
+                Forms\Components\Select::make('priority')
+                    ->options(PriorityType::class)
+                    ->required(),
+                Forms\Components\Select::make('type')
+                    ->options(TaskType::class)
+                    ->required(),
+                Forms\Components\Select::make('users')
+                    ->relationship('users')
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
-        $columns = [
-            Tables\Columns\Layout\Stack::make([
-                Tables\Columns\TextColumn::make('name')
-                    ->label(__('tasks-management::tasks.columns.title'))
-                    ->icon(fn (Task $record) => ! static::verifyReadAt($record) ? 'heroicon-o-finger-print' : null)
-                    ->iconColor('indigo')
-                    ->sortable()
-                    ->searchable()
-                    ->limit(),
-                // ... rest of the columns configuration
-            ])->space(3),
-        ];
-
         return $table
-            ->defaultSort('created_at', 'desc')
-            ->columns($columns)
+            ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('priority')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable(),
+            ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->extraModalWindowAttributes(['class' => '[&_.fi-modal-content]:!p-0'])
-                    ->modalWidth(MaxWidth::TwoExtraLarge),
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\RestoreAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
 
-    // ... rest of the methods remain similar but with updated namespaces and translations
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListTasks::route('/'),
+            'edit' => Pages\EditTask::route('/{record}/edit'),
+        ];
+    }
 }

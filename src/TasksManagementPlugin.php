@@ -6,9 +6,17 @@ namespace Alessandronuunes\TasksManagement;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource;
+use Alessandronuunes\TasksManagement\Filament\Widgets\TasksOverviewWidget;
+use Alessandronuunes\TasksManagement\Filament\Widgets\LatestTasksWidget;
 
 class TasksManagementPlugin implements Plugin
 {
+    public static function make(): static
+    {
+        return new static();
+    }
+
     public function getId(): string
     {
         return 'tasks-management';
@@ -18,29 +26,16 @@ class TasksManagementPlugin implements Plugin
     {
         $panel
             ->resources([
-                Filament\Resources\TaskResource::class,
+                TaskResource::class,
             ])
             ->widgets([
-                Filament\Widgets\TasksOverviewWidget::class,
-                Filament\Widgets\LatestTasksWidget::class,
+                TasksOverviewWidget::class,
+                LatestTasksWidget::class,
             ]);
     }
 
     public function boot(Panel $panel): void
     {
         //
-    }
-
-    public static function make(): static
-    {
-        return app(static::class);
-    }
-
-    public static function get(): static
-    {
-        /** @var static $plugin */
-        $plugin = filament(app(static::class)->getId());
-
-        return $plugin;
     }
 }
