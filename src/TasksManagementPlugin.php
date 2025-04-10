@@ -18,11 +18,11 @@ class TasksManagementPlugin implements Plugin
     {
         $panel
             ->resources([
-                Resources\TaskResource::class,
+                Filament\Resources\TaskResource::class,
             ])
             ->widgets([
-                Widgets\TasksOverviewWidget::class,
-                Widgets\LatestTasksWidget::class,
+                Filament\Widgets\TasksOverviewWidget::class,
+                Filament\Widgets\LatestTasksWidget::class,
             ]);
     }
 
