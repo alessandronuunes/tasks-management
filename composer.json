@@ -1,0 +1,42 @@
+{
+    "name": "alessandronuunes/tasks-management",
+    "description": "Sistema de gerenciamento de tarefas para Laravel com suporte a Filament, que inclui recursos de atribuição de usuários, comentários, prioridades, status e tipos de tarefas. Possui suporte opcional a multitenancy, notificações e controle de leitura de tarefas.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Alessandronuunes\\TasksManagement\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "alessandronuunes",
+            "email": "alessandronuunes@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^11.0",
+        "filament/filament": "^3.2",
+        "filament/notifications": "^3.2",
+        "filament/forms": "^3.2",
+        "filament/tables": "^3.2"
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-laravel": "^2.4",
+        "laravel/pint": "^1.13"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Alessandronuunes\\TasksManagement\\TasksManagementServiceProvider"
+            ]
+        }
+    }
+}
