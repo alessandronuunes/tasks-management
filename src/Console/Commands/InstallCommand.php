@@ -24,6 +24,11 @@ class InstallCommand extends Command
             '--force' => true,
         ]);
 
+        $this->call('vendor:publish', [
+            '--tag' => 'tasks-management-translations',
+            '--force' => true,
+        ]);
+
         $this->info('Tasks Management was installed successfully.');
 
         return self::SUCCESS;

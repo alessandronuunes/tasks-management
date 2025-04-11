@@ -32,6 +32,12 @@ php artisan migrate
 ```bash
 php artisan vendor:publish --tag=tasks-management-config
  ```
+
+ 4. Publish the language files:
+```bash
+php artisan vendor:publish --tag=tasks-management-translations
+ ```
+
 ## Configuration
 
 The package configuration file will be published at config/tasks-management.php . Here you can:

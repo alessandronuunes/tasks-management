@@ -36,6 +36,13 @@ class TasksManagementServiceProvider extends PackageServiceProvider
             ->hasCommands([
                 Console\Commands\InstallCommand::class,
             ]);
+
+        // Add translations publishing
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../resources/lang' => resource_path('lang/vendor/tasks-management'),
+            ], 'tasks-management-translations');
+        }
     }
 
     public function packageBooted(): void
