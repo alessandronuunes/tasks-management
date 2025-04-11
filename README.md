@@ -1,77 +1,97 @@
 # Laravel Tasks Management
 
-Sistema de gerenciamento de tarefas para Laravel com suporte a Filament, que inclui recursos de atribuição de usuários, comentários, prioridades, status e tipos de tarefas.
+Task management system for Laravel with Filament support, which includes features for user assignment, comments, priorities, statuses, and task types.
 
-## Características
+## Features
 
-- ✨ Interface moderna com Filament 3
-- 🔄 Sistema de status e prioridades
-- 👥 Atribuição múltipla de usuários
-- 💬 Sistema de comentários
-- 🔔 Notificações em tempo real
-- 📱 Interface responsiva
-- 🏢 Suporte opcional a multitenancy
+- Task management with CRUD operations
+- Task assignments to users
+- Task priorities and status management
+- Team support (optional)
+- Comments on tasks
+- Task notifications (configurable)
 
-## Requisitos
+## Requirements
 
 - PHP 8.2 ou superior
 - Laravel 11.x
 - Filament 3.x
 
-## Instalação
-# Tasks Management
-
-## Instalação
-
-1. Adicione o repositório ao seu composer.json:
-```json
-"repositories": [
-    {
-        "type": "vcs",
-        "url": "https://github.com/alessandronuunes/tasks-management"
-    }
-]
-```
-
-2. Instale o pacote:
+1. Install the package:
 ```bash
 composer require alessandronuunes/tasks-management
-```
+ ```
 
-3. Execute as migrações:
+2. Publish and run the migrations:
 ```bash
+php artisan vendor:publish --tag=tasks-management-migrations
 php artisan migrate
-```
+ ```
 
-4. Publique os assets:
+3. Publish the configuration file:
 ```bash
-php artisan vendor:publish --tag=public --force
+php artisan vendor:publish --tag=tasks-management-config
+ ```
+## Configuration
+
+The package configuration file will be published at config/tasks-management.php . Here you can:
+
+- Enable/disable team support
+- Configure models
+- Setup notifications
+- Enable/disable widgets
+
+You can set the default locale in the configuration file:
+```php
+'locale' => 'pt_BR', // or any other locale
 ```
-
-5. Publique as configurações:
-```bash
-php artisan vendor:publish --tag=config --force
-```
-
-## Configuração
-
-O pacote inclui uma configuração que pode ser modificada no arquivo `config/tasks-management.php`.
-
-## Uso
-
-O package adiciona automaticamente um novo recurso "Tarefas" ao seu painel Filament.
-
-Para relacionar tarefas com seus modelos, adicione ao arquivo de configuração:
+Configure default behavior for actions:
 
 ```php
-'morphable_types' => [
-    \App\Models\Lead::class => 'Leads',
+'actions' => [
+    'create_another' => false, // Controls the createAnother behavior in forms
 ],
 ```
+To enable team support, update your configuration:
+
+```php
+'use_teams' => true,
+'models' => [
+    'team' => App\Models\Team::class,
+]
+ ```
+### Adding to Filament
+Add the plugin to your Filament panel provider:
+
+```php
+use Alessandronuunes\TasksManagement\TasksManagementPlugin;
+
+class AdminPanelProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ... other configurations ...
+            ->plugins([
+                TasksManagementPlugin::make(),
+            ]);
+    }
+}
+ ```
+
+## Customization
+You can customize the behavior of the package by:
+
+1. Extending the models
+2. Modifying the configuration
+3. Publishing and modifying the views
+4. Extending the resources
+
+## License
+The MIT License (MIT). Please see License File for more information.
 
 ## Contribuição
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
-## Licença
-Este projeto está licenciado sob a licença MIT.
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
 ## Autor
 Alessandro Nuunes de Oliveira

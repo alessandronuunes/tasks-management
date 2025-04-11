@@ -54,4 +54,12 @@ return [
         'tasks_overview' => true,
         'latest_tasks' => true,
     ],
+    /**
+     * Locale configuration
+     */
+    'locale' => 'pt_BR',
+    
+    'actions' => [
+        'create_another' => false, // Default value for createAnother in actions
+    ],
 ];

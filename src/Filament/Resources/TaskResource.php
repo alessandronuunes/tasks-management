@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement\Filament\Resources;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Alessandronuunes\TasksManagement\Models\Task;
-use Alessandronuunes\TasksManagement\Enums\TaskType;
 use Alessandronuunes\TasksManagement\Enums\PriorityType;
+use Alessandronuunes\TasksManagement\Enums\TaskStatus;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\Pages;
 
 class TaskResource extends Resource
@@ -24,30 +26,63 @@ class TaskResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'pending' => 'Pending',
-                        'in_progress' => 'In Progress',
-                        'completed' => 'Completed',
+                Forms\Components\Grid::make()
+                    ->columnSpanFull()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->hiddenLabel()
+                            ->placeholder(__('tasks-management::tasks.placeholders.name'))
+                            ->columnSpanFull()
+                            ->required(),
+                        Forms\Components\RichEditor::make('description')
+                            ->hiddenLabel()
+                            ->columnSpanFull(),
+                    ]),
+                
+                Forms\Components\Grid::make()
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\Select::make('status')
+                            ->label(__('tasks-management::tasks.fields.status'))
+                            ->options(TaskStatus::class)
+                            ->enum(TaskStatus::class)
+                            ->required()
+                            ->default(TaskStatus::Pending)
+                            ->columnSpan(1),
+                        Forms\Components\Select::make('priority')
+                            ->label(__('tasks-management::tasks.fields.priority'))
+                            ->options(PriorityType::class)
+                            ->required()
+                            ->default(PriorityType::Low)
+                            ->columnSpan(1),
+                        Forms\Components\Select::make('users')
+                            ->label(__('tasks-management::tasks.fields.users'))
+                            ->relationship('users', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable()
+                            ->columnSpan(1),
+                ]),
+                Forms\Components\Grid::make()
+                    ->columns(12)
+                    ->schema([
+                        Forms\Components\DateTimePicker::make('starts_at')
+                            ->label(__('tasks-management::tasks.fields.starts_at'))
+                            ->live()
+                            ->native(false)
+                            ->displayFormat('d M Y H:i')
+                            ->before(fn (Get $get): ?string => $get('ends_at'))
+                            ->maxDate(fn (Get $get): string|Carbon => $get('ends_at') ?: now()->addYear())
+                            ->columnSpan(6),
+                        Forms\Components\DateTimePicker::make('ends_at')
+                            ->label(__('tasks-management::tasks.fields.ends_at'))
+                            ->live()
+                            ->native(false)
+                            ->displayFormat('d M Y H:i')
+                            ->after('starts_at')
+                            ->minDate(fn (Get $get): ?string => $get('starts_at'))
+                            ->columnSpan(6),
                     ])
-                    ->required(),
-                Forms\Components\Select::make('priority')
-                    ->options(PriorityType::class)
-                    ->required(),
-                Forms\Components\Select::make('type')
-                    ->options(TaskType::class)
-                    ->required(),
-                Forms\Components\Select::make('users')
-                    ->relationship('users')
-                    ->multiple()
-                    ->preload()
-                    ->searchable(),
             ]);
     }
 
@@ -56,14 +91,19 @@ class TaskResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('tasks-management::tasks.fields.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label(__('tasks-management::tasks.fields.status'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('priority')
+                    ->label(__('tasks-management::tasks.fields.priority'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label(__('tasks-management::tasks.fields.type'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('tasks-management::tasks.fields.created_at'))
                     ->dateTime()
                     ->sortable(),
             ])
@@ -92,7 +132,6 @@ class TaskResource extends Resource
     {
         return [
             'index' => Pages\ListTasks::route('/'),
-            'edit' => Pages\EditTask::route('/{record}/edit'),
         ];
     }
 }

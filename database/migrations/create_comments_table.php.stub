@@ -11,10 +11,17 @@ return new class() extends Migration {
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->ulid('id')->primary();
+            
             if (config('tasks-management.use_teams', false)) {
-                $table->foreignUlid('team_id')->nullable()->constrained()->cascadeOnDelete();
+                $teamModel = config('tasks-management.models.team');
+                if ($teamModel) {
+                    $table->foreignIdFor($teamModel)->nullable()->constrained()->cascadeOnDelete();
+                }
             }
-            $table->foreignUlid('user_id')->constrained()->cascadeOnDelete();
+
+            // Mudando de ulid para id normal para compatibilidade com a tabela users
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            
             $table->ulidMorphs('commentable');
             $table->longText('content');
             $table->timestamps();

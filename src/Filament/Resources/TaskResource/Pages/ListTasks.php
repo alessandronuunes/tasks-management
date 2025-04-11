@@ -16,8 +16,8 @@ class ListTasks extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->modalWidth('7xl')
-                ->slideOver(),
+                ->createAnother(false)
+                ->modalWidth('2xl'),
         ];
     }
 }

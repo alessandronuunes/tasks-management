@@ -9,10 +9,16 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class CommentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'comments';
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return __('tasks-management::comments.title');
+    }
 
     public function form(Form $form): Form
     {
@@ -44,7 +50,10 @@ class CommentsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->label(__('tasks-management::comments.actions.create'))
+                    ->createAnother(config('tasks-management.actions.create_another', false))
+                    ->modalHeading(__('tasks-management::comments.modal.new')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

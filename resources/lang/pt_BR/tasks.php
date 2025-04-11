@@ -7,9 +7,19 @@ return [
         'singular' => 'Tarefa',
         'plural' => 'Tarefas',
     ],
-    'tabs' => [
-        'basic' => 'Básico',
-        'advanced' => 'Avançado',
+    'fields' => [
+        'name' => 'Nome da Tarefa',
+        'description' => 'Descrição',
+        'status' => 'Status',
+        'priority' => 'Prioridade',
+        'type' => 'Tipo',
+        'users' => 'Responsáveis',
+        'starts_at' => 'Início',
+        'ends_at' => 'Fim',
+        'created_at' => 'Criado em',
+    ],
+    'placeholders' => [
+        'name' => 'Nome da Tarefa',
     ],
     'columns' => [
         'title' => 'Título',

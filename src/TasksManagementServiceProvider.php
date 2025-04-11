@@ -42,6 +42,17 @@ class TasksManagementServiceProvider extends PackageServiceProvider
     {
         parent::packageBooted();
 
+        // Register Resources
+        $this->app->booted(function () {
+            if (class_exists(\Filament\Facades\Filament::class)) {
+                \Filament\Facades\Filament::serving(function () {
+                    \Filament\Facades\Filament::registerResources([
+                        \Alessandronuunes\TasksManagement\Filament\Resources\TaskResource::class,
+                    ]);
+                });
+            }
+        });
+
         Task::observe(TaskObserver::class);
         Comment::observe(CommentObserver::class);
 
@@ -59,5 +70,14 @@ class TasksManagementServiceProvider extends PackageServiceProvider
         if (config('tasks-management.use_teams')) {
             $this->app['router']->aliasMiddleware('ensure-team', EnsureTeamMiddleware::class);
         }
+    }
+
+    public function boot(): void
+    {
+        parent::boot();
+    
+        // Set the locale from config
+        $locale = config('tasks-management.locale', 'en');
+        app()->setLocale($locale);
     }
 }
