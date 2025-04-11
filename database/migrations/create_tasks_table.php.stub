@@ -11,7 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tasks', function (Blueprint $table) {
-            $table->ulid('id')->primary();
+            $table->id();
             
             if (config('tasks-management.use_teams', false)) {
                 $teamModel = config('tasks-management.models.team');
@@ -23,7 +23,7 @@ return new class extends Migration
             $userModel = config('tasks-management.models.user', \App\Models\User::class);
             $table->foreignIdFor($userModel)->nullable()->constrained()->cascadeOnDelete();
             
-            $table->foreignUlid('parent_id')->nullable()->constrained('tasks');
+            $table->foreignId('parent_id')->nullable()->constrained('tasks');
             $table->nullableUlidMorphs('taskable');
             $table->string('name');
             $table->string('priority')->nullable();

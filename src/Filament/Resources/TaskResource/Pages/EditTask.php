@@ -74,6 +74,20 @@ class EditTask extends EditRecord
                             ->options(PriorityType::class)
                             ->required()
                             ->default(PriorityType::Low),
+                        Forms\Components\Select::make('tags')
+                            ->multiple()
+                            ->placeholder(__('tasks-management::tasks.placeholders.tags'))
+                            ->relationship('tags', 'name')
+                            ->createOptionAction(fn ( $action) => $action->modalWidth('md'))
+                            
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\ColorPicker::make('color')
+                                    ->required(),
+                            ])
+                            ->preload(),
                     ]),
             ])->columns(3);
     }

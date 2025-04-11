@@ -32,6 +32,8 @@ class TasksManagementServiceProvider extends PackageServiceProvider
                 'create_tasks_table',
                 'create_task_user_table',
                 'create_comments_table',
+                'create_task_tags_table',
+                'create_task_attachments_table',
             ])
             ->hasCommands([
                 Console\Commands\InstallCommand::class,

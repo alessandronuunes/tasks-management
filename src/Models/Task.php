@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[ObservedBy(TaskObserver::class)]
 class Task extends Model
 {
-    use HasUlids;
     use SoftDeletes;
 
     protected $fillable = [
@@ -47,6 +46,15 @@ class Task extends Model
             'starts_at' => 'datetime',
             'ends_at' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        if (config('tasks-management.use_teams')) {
+            static::addGlobalScope('team', function ($query) {
+                $query->where('team_id', auth()->user()->current_team_id);
+            });
+        }
     }
 
     public function team(): ?BelongsTo
@@ -86,5 +94,15 @@ class Task extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(config('tasks-management.models.user'))->withPivot('read_at');
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(TaskTag::class, 'task_tag', 'task_id', 'task_tag_id');
+    }
+
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(TaskAttachment::class);
     }
 }

@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comment extends Model
 {
     use SoftDeletes;
-    use HasUlids;
 
     protected $fillable = [
         'team_id',
@@ -21,6 +20,15 @@ class Comment extends Model
         'commentable_type',
         'content',
     ];
+
+    protected static function booted(): void
+    {
+        if (config('tasks-management.use_teams')) {
+            static::addGlobalScope('team', function ($query) {
+                $query->where('team_id', auth()->user()->current_team_id);
+            });
+        }
+    }
 
     public function team(): BelongsTo
     {

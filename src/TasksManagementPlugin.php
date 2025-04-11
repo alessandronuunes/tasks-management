@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement;
 
+use Filament\Panel;
+use Filament\Contracts\Plugin;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource;
+use Alessandronuunes\TasksManagement\Filament\Resources\TaskTagResource;
 use Alessandronuunes\TasksManagement\Filament\Widgets\LatestTasksWidget;
 use Alessandronuunes\TasksManagement\Filament\Widgets\TasksOverviewWidget;
-use Filament\Contracts\Plugin;
-use Filament\Panel;
 
 class TasksManagementPlugin implements Plugin
 {
@@ -27,6 +28,7 @@ class TasksManagementPlugin implements Plugin
         $panel
             ->resources([
                 TaskResource::class,
+                TaskTagResource::class,
             ])
             ->widgets([
                 TasksOverviewWidget::class,

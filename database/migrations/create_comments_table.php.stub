@@ -10,7 +10,7 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create('comments', function (Blueprint $table) {
-            $table->ulid('id')->primary();
+            $table->id();
             
             if (config('tasks-management.use_teams', false)) {
                 $teamModel = config('tasks-management.models.team');

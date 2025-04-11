@@ -10,6 +10,7 @@ return [
     'sections' => [
         'task_data' => 'Dados da Tarefa',
         'properties' => 'Propriedades',
+        'attachments' => 'Anexos',
     ],
     'fields' => [
         'name' => 'Nome da Tarefa',
@@ -22,9 +23,13 @@ return [
         'ends_at' => 'Fim',
         'created_at' => 'Criado em',
         'assigned_users' => 'Usuários Atribuídos',
+        'tags' => 'Tags',
+        'attachments' => 'Anexos',
     ],
     'placeholders' => [
         'name' => 'Nome da Tarefa',
+        'description' => 'Descreva aqui a sua tarefa, o que deve ser feito',
+        'tags' => 'Selecione',
     ],
     'columns' => [
         'title' => 'Título',

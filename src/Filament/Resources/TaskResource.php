@@ -11,6 +11,7 @@ use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\RelationMan
 use Alessandronuunes\TasksManagement\Models\Task;
 use Carbon\Carbon;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
@@ -54,12 +55,25 @@ class TaskResource extends Resource
                             ->columnSpanFull()
                             ->required(),
                         Forms\Components\RichEditor::make('description')
+                            ->placeholder(__('tasks-management::tasks.placeholders.description'))
                             ->hiddenLabel()
+                            ->disableToolbarButtons(['blockquote', 'codeBlock'])
                             ->columnSpanFull(),
+                        
+                        FileUpload::make('attachments')
+                            ->label(__('tasks-management::tasks.fields.attachments'))
+                            ->multiple()
+                            ->columnSpanFull()
+                            ->directory('task-attachments')
+                            ->preserveFilenames()
+                            ->downloadable()
+                            ->openable()
+                            ->reorderable()
+                            ->maxSize(10240)
                     ]),
-
-                Forms\Components\Grid::make()
-                    ->columns(3)
+                
+                    Forms\Components\Grid::make()
+                    ->columns(12)
                     ->schema([
                         Forms\Components\Select::make('status')
                             ->label(__('tasks-management::tasks.fields.status'))
@@ -67,24 +81,41 @@ class TaskResource extends Resource
                             ->enum(TaskStatus::class)
                             ->required()
                             ->default(TaskStatus::Pending)
-                            ->columnSpan(1),
+                            ->columnSpan(4),
                         Forms\Components\Select::make('priority')
                             ->label(__('tasks-management::tasks.fields.priority'))
                             ->options(PriorityType::class)
                             ->required()
                             ->default(PriorityType::Low)
-                            ->columnSpan(1),
+                            ->columnSpan(4),
                         Forms\Components\Select::make('users')
                             ->label(__('tasks-management::tasks.fields.users'))
                             ->relationship('users', 'name')
                             ->multiple()
                             ->preload()
                             ->searchable()
-                            ->columnSpan(1),
-                ]),
+                            ->columnSpan(4),
+                        
+                    ]),
                 Forms\Components\Grid::make()
                     ->columns(12)
                     ->schema([
+                    
+                        
+                        Forms\Components\Select::make('tags')
+                            ->multiple()
+                            ->placeholder(__('tasks-management::tasks.placeholders.tags'))
+                            ->relationship('tags', 'name')
+                            ->createOptionAction(fn ( $action) => $action->modalWidth('md'))
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\ColorPicker::make('color')
+                                    ->required(),
+                            ])
+                            ->columnSpan(4)
+                            ->preload(),
                         Forms\Components\DateTimePicker::make('starts_at')
                             ->label(__('tasks-management::tasks.fields.starts_at'))
                             ->live()
@@ -92,7 +123,7 @@ class TaskResource extends Resource
                             ->displayFormat('d M Y H:i')
                             ->before(fn (Get $get): ?string => $get('ends_at'))
                             ->maxDate(fn (Get $get): string|Carbon => $get('ends_at') ?: now()->addYear())
-                            ->columnSpan(6),
+                            ->columnSpan(4),
                         Forms\Components\DateTimePicker::make('ends_at')
                             ->label(__('tasks-management::tasks.fields.ends_at'))
                             ->live()
@@ -100,8 +131,9 @@ class TaskResource extends Resource
                             ->displayFormat('d M Y H:i')
                             ->after('starts_at')
                             ->minDate(fn (Get $get): ?string => $get('starts_at'))
-                            ->columnSpan(6),
-                    ]),
+                            ->columnSpan(4),
+                
+                ])
             ]);
     }
 
