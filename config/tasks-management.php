@@ -28,7 +28,15 @@ return [
         'user' => App\Models\User::class,
         'team' => null,
     ],
-
+    /*
+    |--------------------------------------------------------------------------
+    | Navigation Configuration
+    |--------------------------------------------------------------------------
+    */
+    'navigation' => [
+        'icon' => 'heroicon-o-rectangle-stack',
+        'sort' => 30,
+    ],
     /*
     |--------------------------------------------------------------------------
     | Notifications
@@ -58,7 +66,7 @@ return [
      * Locale configuration
      */
     'locale' => 'pt_BR',
-    
+
     'actions' => [
         'create_another' => false, // Default value for createAnother in actions
     ],

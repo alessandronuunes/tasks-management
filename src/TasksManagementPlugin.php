@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement;
 
+use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource;
+use Alessandronuunes\TasksManagement\Filament\Widgets\LatestTasksWidget;
+use Alessandronuunes\TasksManagement\Filament\Widgets\TasksOverviewWidget;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource;
-use Alessandronuunes\TasksManagement\Filament\Widgets\TasksOverviewWidget;
-use Alessandronuunes\TasksManagement\Filament\Widgets\LatestTasksWidget;
 
 class TasksManagementPlugin implements Plugin
 {

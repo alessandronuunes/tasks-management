@@ -7,6 +7,10 @@ return [
         'singular' => 'Tarefa',
         'plural' => 'Tarefas',
     ],
+    'sections' => [
+        'task_data' => 'Dados da Tarefa',
+        'properties' => 'Propriedades',
+    ],
     'fields' => [
         'name' => 'Nome da Tarefa',
         'description' => 'Descrição',
@@ -17,6 +21,7 @@ return [
         'starts_at' => 'Início',
         'ends_at' => 'Fim',
         'created_at' => 'Criado em',
+        'assigned_users' => 'Usuários Atribuídos',
     ],
     'placeholders' => [
         'name' => 'Nome da Tarefa',

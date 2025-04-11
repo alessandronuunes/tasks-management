@@ -4,23 +4,42 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement\Filament\Resources;
 
-use Carbon\Carbon;
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Alessandronuunes\TasksManagement\Models\Task;
 use Alessandronuunes\TasksManagement\Enums\PriorityType;
 use Alessandronuunes\TasksManagement\Enums\TaskStatus;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\Pages;
+use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\RelationManagers\CommentsRelationManager;
+use Alessandronuunes\TasksManagement\Models\Task;
+use Carbon\Carbon;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
 
 class TaskResource extends Resource
 {
     protected static ?string $model = Task::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    public static function getNavigationIcon(): ?string
+    {
+        return config('tasks-management.navigation.icon');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return config('tasks-management.navigation.sort');
+    }
+
+    public static function getLabel(): string
+    {
+        return __('tasks-management::tasks.label.singular');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('tasks-management::tasks.label.plural');
+    }
 
     public static function form(Form $form): Form
     {
@@ -38,7 +57,7 @@ class TaskResource extends Resource
                             ->hiddenLabel()
                             ->columnSpanFull(),
                     ]),
-                
+
                 Forms\Components\Grid::make()
                     ->columns(3)
                     ->schema([
@@ -82,7 +101,7 @@ class TaskResource extends Resource
                             ->after('starts_at')
                             ->minDate(fn (Get $get): ?string => $get('starts_at'))
                             ->columnSpan(6),
-                    ])
+                    ]),
             ]);
     }
 
@@ -124,7 +143,7 @@ class TaskResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CommentsRelationManager::class,
         ];
     }
 
@@ -132,6 +151,7 @@ class TaskResource extends Resource
     {
         return [
             'index' => Pages\ListTasks::route('/'),
+            'edit' => Pages\EditTask::route('/{record}/edit'),
         ];
     }
 }

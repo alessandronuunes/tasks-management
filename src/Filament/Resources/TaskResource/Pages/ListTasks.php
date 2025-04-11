@@ -16,7 +16,8 @@ class ListTasks extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->createAnother(false)
+
+                ->createAnother(config('tasks-management.actions.create_another', false))
                 ->modalWidth('2xl'),
         ];
     }

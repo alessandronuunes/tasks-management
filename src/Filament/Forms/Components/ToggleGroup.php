@@ -23,6 +23,7 @@ class ToggleGroup extends Field implements Contracts\CanDisableOptions
     protected bool | Closure $isInline = false;
 
     protected string $view = 'tasks-management::forms.components.toggle-group';
+
     public function inline(bool | Closure $condition = true): static
     {
         $this->isInline = $condition;

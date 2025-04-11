@@ -47,7 +47,7 @@ class TasksManagementServiceProvider extends PackageServiceProvider
             if (class_exists(\Filament\Facades\Filament::class)) {
                 \Filament\Facades\Filament::serving(function () {
                     \Filament\Facades\Filament::registerResources([
-                        \Alessandronuunes\TasksManagement\Filament\Resources\TaskResource::class,
+                        Filament\Resources\TaskResource::class,
                     ]);
                 });
             }
@@ -75,7 +75,7 @@ class TasksManagementServiceProvider extends PackageServiceProvider
     public function boot(): void
     {
         parent::boot();
-    
+
         // Set the locale from config
         $locale = config('tasks-management.locale', 'en');
         app()->setLocale($locale);
