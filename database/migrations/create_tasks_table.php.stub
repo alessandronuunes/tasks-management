@@ -1,0 +1,44 @@
+<?php
+
+use App\Models\Team;
+use App\Models\User;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('tasks', function (Blueprint $table) {
+            $table->id();
+            
+            if (config('tasks-management.use_teams', false)) {
+                $teamModel = config('tasks-management.models.team');
+                if ($teamModel) {
+                    $table->foreignIdFor($teamModel)->constrained()->cascadeOnDelete();
+                }
+            }
+
+            $userModel = config('tasks-management.models.user', \App\Models\User::class);
+            $table->foreignIdFor($userModel)->nullable()->constrained()->cascadeOnDelete();
+            
+            $table->foreignId('parent_id')->nullable()->constrained('tasks');
+            $table->nullableUlidMorphs('taskable');
+            $table->string('name');
+            $table->string('priority')->nullable();
+            $table->string('status')->nullable();
+            $table->string('type')->nullable();
+            $table->longText('description')->nullable();
+            $table->timestamp('starts_at')->nullable();
+            $table->timestamp('ends_at')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('tasks');
+    }
+};

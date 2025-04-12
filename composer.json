@@ -1,0 +1,48 @@
+{
+    "name": "alessandronuunes/tasks-management",
+    "description": "A tasks management plugin for Filament PHP",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Alessandronuunes\\TasksManagement\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alessandro Nunes",
+            "email": "alessandro.nunes@live.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^3.0",
+        "spatie/laravel-package-tools": "^1.15.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Alessandronuunes\\TasksManagement\\TasksManagementServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "analyse": "vendor/bin/phpstan analyse"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0",
+        "phpunit/phpunit": "^10.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpstan/phpstan": "^1.10"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Alessandronuunes\\TasksManagement\\Tests\\": "tests"
+        }
+    }
+}
