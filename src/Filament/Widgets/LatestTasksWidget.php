@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement\Filament\Widgets;
 
-use Alessandronuunes\TasksManagement\Models\Task;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Alessandronuunes\TasksManagement\Models\Task;
+use Alessandronuunes\TasksManagement\Traits\AuthorizedUsersTrait;
 
 class LatestTasksWidget extends BaseWidget
 {
+
+    use AuthorizedUsersTrait;
     protected static ?int $sort = 2;
 
     protected int | string | array $columnSpan = 'full';
-
+    
+    public static function canView(): bool
+    {
+        return self::isAuthorized();
+    }
     public function table(Table $table): Table
     {
         return $table

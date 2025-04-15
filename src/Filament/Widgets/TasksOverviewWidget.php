@@ -5,11 +5,18 @@ declare(strict_types=1);
 namespace Alessandronuunes\TasksManagement\Filament\Widgets;
 
 use Alessandronuunes\TasksManagement\Models\Task;
+use Alessandronuunes\TasksManagement\Traits\AuthorizedUsersTrait;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class TasksOverviewWidget extends BaseWidget
 {
+    use AuthorizedUsersTrait;
+
+    public static function canView(): bool
+    {
+        return self::isAuthorized();
+    }
     protected function getStats(): array
     {
         $query = Task::query();

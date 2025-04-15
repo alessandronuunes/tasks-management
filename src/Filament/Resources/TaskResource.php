@@ -18,10 +18,12 @@ use Alessandronuunes\TasksManagement\Traits\HasResourceConfig;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\Pages;
 use Alessandronuunes\TasksManagement\Filament\Forms\Components\CustomFields;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\RelationManagers\CommentsRelationManager;
+use Alessandronuunes\TasksManagement\Traits\AuthorizedUsersTrait;
 
 class TaskResource extends Resource
 {
     use HasResourceConfig;
+    use AuthorizedUsersTrait;
 
     protected static ?string $model = Task::class;
     public static function getLabel(): string
@@ -33,7 +35,10 @@ class TaskResource extends Resource
     {
         return __('tasks-management::labels.tasks.plural');
     }
-
+    public static function canViewAny(): bool
+    {
+        return self::isAuthorized();
+    }
     public static function form(Form $form): Form
     {
         return $form
