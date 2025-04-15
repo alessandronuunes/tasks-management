@@ -14,6 +14,7 @@ class ListTaskCustomFields extends ListRecords
     {
         return [
             Actions\CreateAction::make()
+                ->modalWidth('2xl')
                 ->createAnother(config('tasks-management.actions.create_another', false))
             ,
         ];

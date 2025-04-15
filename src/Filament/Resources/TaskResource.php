@@ -43,12 +43,12 @@ class TaskResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label(__('tasks-management::fields.common.name'))
-                            ->placeholder(__('tasks-management::fields.tasks.name'))
+                            ->placeholder(__('tasks-management::fields.tasks.placeholders.name'))
                             ->columnSpanFull()
                             ->required(),
                         Forms\Components\RichEditor::make('description')
                             ->label(__('tasks-management::fields.common.description'))
-                            ->placeholder(__('tasks-management::fields.tasks.description'))
+                            ->placeholder(__('tasks-management::fields.tasks.placeholders.description'))
                             ->disableToolbarButtons(['blockquote', 'codeBlock'])
                             ->columnSpanFull(),
                         
@@ -63,7 +63,10 @@ class TaskResource extends Resource
                             ->reorderable()
                             ->maxSize(10240)
                     ]),
-                    CustomFields::make()->columnSpanFull(),
+                    
+                    CustomFields::make()
+                        ->columns( 12)
+                        ->fieldSpan(6),
                     Forms\Components\Grid::make()
                     ->columns(12)
                     ->schema([
@@ -72,29 +75,21 @@ class TaskResource extends Resource
                             ->options(TaskStatus::class)
                             ->required()
                             ->default(TaskStatus::Pending)
-                            ->columnSpan(4),
+                            ->columnSpan(6),
                         Forms\Components\Select::make('priority')
                             ->label(__('tasks-management::fields.tasks.priority'))
                             ->options(PriorityType::class)
                             ->required()
                             ->default(PriorityType::Low)
-                            ->columnSpan(4),
-                        Forms\Components\Select::make('users')
-                            ->label(__('tasks-management::fields.tasks.users'))
-                            ->relationship('users', 'name')
-                            ->multiple()
-                            ->preload()
-                            ->searchable()
-                            ->columnSpan(4),
+                            ->columnSpan(6),
+                        
                     ]),
                 Forms\Components\Grid::make()
                     ->columns(12)
                     ->schema([
-                    
-                        
                         Forms\Components\Select::make('tags')
                             ->multiple()
-                            ->placeholder(__('tasks-management::tasks.placeholders.tags'))
+                            ->placeholder(__('tasks-management::fields.tasks.placeholders.tags'))
                             ->relationship('tags', 'name')
                             ->createOptionAction(fn ( $action) => $action->modalWidth('md'))
                             ->createOptionForm([
@@ -104,24 +99,15 @@ class TaskResource extends Resource
                                 Forms\Components\ColorPicker::make('color')
                                     ->required(),
                             ])
-                            ->columnSpan(4)
+                            ->columnSpan(6)
                             ->preload(),
-                        Forms\Components\DateTimePicker::make('starts_at')
-                            ->label(__('tasks-management::tasks.fields.starts_at'))
-                            ->live()
-                            ->native(false)
-                            ->displayFormat('d M Y H:i')
-                            ->before(fn (Get $get): ?string => $get('ends_at'))
-                            ->maxDate(fn (Get $get): string|Carbon => $get('ends_at') ?: now()->addYear())
-                            ->columnSpan(4),
-                        Forms\Components\DateTimePicker::make('ends_at')
-                            ->label(__('tasks-management::tasks.fields.ends_at'))
-                            ->live()
-                            ->native(false)
-                            ->displayFormat('d M Y H:i')
-                            ->after('starts_at')
-                            ->minDate(fn (Get $get): ?string => $get('starts_at'))
-                            ->columnSpan(4),
+                        Forms\Components\Select::make('users')
+                            ->label(__('tasks-management::fields.tasks.users'))
+                            ->relationship('users', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable()
+                            ->columnSpan(6),
                 
                 ])
             ]);
@@ -130,6 +116,7 @@ class TaskResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+        ->defaultSort('id', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('tasks-management::fields.common.name'))

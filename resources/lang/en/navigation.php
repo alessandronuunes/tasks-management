@@ -12,4 +12,7 @@ return [
         'task_tags' => 'Tags',
         'custom_fields' => 'Custom Fields',
     ],
+    'parent' => [
+        'custom_fields' => 'Custom Fields',
+    ],
 ];

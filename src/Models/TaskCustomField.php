@@ -2,10 +2,13 @@
 
 namespace Alessandronuunes\TasksManagement\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Alessandronuunes\TasksManagement\Enums\CustomFieldType;
+use Alessandronuunes\TasksManagement\Casts\OptionsArrayCast;
+use Alessandronuunes\TasksManagement\Models\TaskCustomFieldValue;
 
 class TaskCustomField extends Model
 {
@@ -17,11 +20,14 @@ class TaskCustomField extends Model
         'options',
         'is_required',
         'sort_order',
+        'placeholder',
+        'help_text',
+        'hint',
     ];
 
     protected $casts = [
         'type' => CustomFieldType::class,
-        'options' => 'array',
+        'options' => OptionsArrayCast::class,
         'is_required' => 'boolean',
     ];
 

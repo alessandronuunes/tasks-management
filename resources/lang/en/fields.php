@@ -37,6 +37,12 @@ return [
             'text' => 'Text Input',
             'select' => 'Select',
         ],
+        'placeholder' => 'Placeholder',
+        'help_text' => 'Help Text',
+        'hint' => 'Hint',
+        'settings' => 'Settings',
+        'preview' => 'Preview',
+        'preview_label' => 'Field Preview',
     ],
     'task_tags' => [
         'color' => 'Color',

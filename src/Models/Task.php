@@ -36,16 +36,14 @@ class Task extends Model
         'ends_at',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'type' => TaskType::class,
-            'priority' => PriorityType::class,
-            'status' => TaskStatus::class,
-            'starts_at' => 'datetime',
-            'ends_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'type' => TaskType::class,
+        'priority' => PriorityType::class,
+        'status' => TaskStatus::class,
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
+    ];
+
 
     protected static function booted(): void
     {

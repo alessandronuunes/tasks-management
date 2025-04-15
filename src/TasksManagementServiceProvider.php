@@ -96,5 +96,6 @@ class TasksManagementServiceProvider extends PackageServiceProvider
         // Set the locale from config
         $locale = config('tasks-management.locale', 'en');
         app()->setLocale($locale);
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'tasks-management');
     }
 }

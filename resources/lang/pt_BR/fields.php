@@ -24,19 +24,33 @@ return [
             'properties' => 'Propriedades'
         ],
         'placeholders' => [
+            'name' => 'Digite o nome da tarefa',
+            'description' => 'Digite a descrição da tarefa',
+            'status' => 'Selecione o status',
+            'priority' => 'Selecione a prioridade',
+            'type' => 'Selecione o tipo',
+            'users' => 'Selecione os usuários',
             'tags' => 'Selecione as tags'
         ]
     ],
     'custom_fields' => [
         'code' => 'Código',
-        'type' => 'Tipo',
+        'type' => 'Tipo do Campo',
         'options' => 'Opções',
+        'option_label' => 'Rótulo da Opção',
+        'option_value' => 'Valor da Opção',
         'is_required' => 'Obrigatório',
         'sort_order' => 'Ordem',
         'types' => [
-            'text' => 'Campo de Texto',
+            'text' => 'Texto',
             'select' => 'Seleção',
         ],
+        'placeholder' => 'Placeholder',
+        'help_text' => 'Texto de Ajuda',
+        'hint' => 'Dica',
+        'settings' => 'Configurações',
+        'preview' => 'Prévia',
+        'preview_label' => 'Prévia do Campo',
     ],
     'task_tags' => [
         'color' => 'Cor',

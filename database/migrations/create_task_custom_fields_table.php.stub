@@ -14,6 +14,9 @@ return new class extends Migration
             $table->string('code')->unique(); // This will create a unique index with a default name
             $table->string('type');
             $table->json('options')->nullable();
+            $table->string('placeholder')->nullable();
+            $table->string('help_text')->nullable();
+            $table->string('hint')->nullable();
             $table->boolean('is_required')->default(false);
             $table->integer('sort_order')->default(0);
             $table->timestamps();
