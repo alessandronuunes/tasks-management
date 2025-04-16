@@ -35,7 +35,7 @@ class EditTask extends EditRecord
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label(__('tasks-management::fields.common.name'))
-                            ->placeholder(fn (Get $get) => TaskType::tryFrom($get('type') ?? '')?->getTitle())
+                            ->placeholder(__('tasks-management::fields.tasks.placeholders.name'))
                             ->columnSpan(3)
                             ->required(),
                         Forms\Components\Select::make('status')
