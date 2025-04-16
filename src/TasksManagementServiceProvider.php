@@ -6,7 +6,6 @@ namespace Alessandronuunes\TasksManagement;
 
 use Alessandronuunes\TasksManagement\Events\TaskCreatedEvent;
 use Alessandronuunes\TasksManagement\Events\TaskUpdatedEvent;
-use Alessandronuunes\TasksManagement\Filament\Resources\TaskCustomFieldResource;
 use Alessandronuunes\TasksManagement\Http\Middleware\EnsureTeamMiddleware;
 use Alessandronuunes\TasksManagement\Listeners\SendTaskCreatedNotification;
 use Alessandronuunes\TasksManagement\Listeners\SendTaskUpdatedNotification;
