@@ -11,6 +11,12 @@ Task management system for Laravel with Filament support, which includes feature
 - Comments on tasks
 - Task notifications (configurable)
 
+![Task List Screen](./screenshots/list-task.png)
+![Task List Screen](./screenshots/edit-task.png)
+![Task List Screen](./screenshots/list-custom-field.png)
+![Task List Screen](./screenshots/edit-custom-field.png)
+![Task List Screen](./screenshots/create-tag.png)
+
 ## Requirements
 
 - PHP 8.2 ou superior
@@ -79,7 +85,9 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             // ... other configurations ...
             ->plugins([
-                TasksManagementPlugin::make(),
+                TasksManagementPlugin::make()
+                    ->authorizedUsers([ 'admin@admin.com' ])
+                    ->userQueryModifier(fn ($query) => $query->positionNotNull()),,
             ]);
     }
 }

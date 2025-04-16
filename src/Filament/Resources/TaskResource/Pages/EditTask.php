@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\Pages;
 
+use Forms\Form;
 use Filament\Forms;
 use Filament\Actions;
 use Filament\Forms\Get;
@@ -13,11 +14,14 @@ use Alessandronuunes\TasksManagement\Models\Task;
 use Alessandronuunes\TasksManagement\Enums\TaskType;
 use Alessandronuunes\TasksManagement\Enums\TaskStatus;
 use Alessandronuunes\TasksManagement\Enums\PriorityType;
+use Alessandronuunes\TasksManagement\Traits\UserQueryModifierTrait;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource;
 use Alessandronuunes\TasksManagement\Filament\Forms\Components\CustomFields;
 
 class EditTask extends EditRecord
 {
+
+    use UserQueryModifierTrait;
     protected static string $resource = TaskResource::class;
 
     public function form(Forms\Form $form): Forms\Form
@@ -86,8 +90,11 @@ class EditTask extends EditRecord
                             ])
                             ->preload(),
                         Forms\Components\Select::make('users')
-                            ->relationship('users', 'name')
                             ->label(__('tasks-management::fields.tasks.assigned_users'))
+                            ->relationship('users', 'name', function ($query) {
+                                return self::applyUserQueryModifier($query);
+                            })
+                            ->preload()
                             ->multiple()
                             ->columnSpanFull(),
                         CustomFields::make()

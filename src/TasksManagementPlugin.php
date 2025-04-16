@@ -15,7 +15,7 @@ use Alessandronuunes\TasksManagement\Filament\Widgets\TasksOverviewWidget;
 class TasksManagementPlugin implements Plugin
 {
     protected array $authorizedUsers = [];
-
+    protected $userQueryModifier = null;
     public static function make(): static
     {
         return new static();
@@ -42,35 +42,19 @@ class TasksManagementPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
+        // Compartilhar o modificador de consulta de usuários
+        if ($this->userQueryModifier) {
+            app()->instance('tasks-management.user-query-modifier', $this->userQueryModifier);
+        }
+        
         // Se não houver lista de usuários autorizados, permite acesso a todos
         if (empty($this->authorizedUsers)) {
             return;
         }
-        
         // Compartilhar a lista de usuários autorizados com o aplicativo
         app()->instance('tasks-management.authorized-users', $this->authorizedUsers);
-    }
 
-    // Modificar o método para esconder recursos em vez de tentar desregistrá-los
-    protected function hideResources(): void
-    {
-        // Esconder os recursos do plugin para usuários não autorizados
-        // usando políticas ou modificando a visibilidade
         
-        // Para cada recurso do plugin, definir uma política que impede o acesso
-        foreach ([TaskResource::class, TaskTagResource::class, TaskCustomFieldResource::class] as $resource) {
-            // Sobrescrever o método can para negar acesso
-            $resource::canViewAny(function () {
-                return false;
-            });
-        }
-        
-        // Para widgets, podemos usar uma abordagem semelhante
-        foreach ([TasksOverviewWidget::class, LatestTasksWidget::class] as $widget) {
-            $widget::canView(function () {
-                return false;
-            });
-        }
     }
 
     public function authorizedUsers(array $users): static
@@ -81,44 +65,15 @@ class TasksManagementPlugin implements Plugin
         return $this;
     }
 
-    protected function isAuthorized(): bool
+    public function userQueryModifier(callable $modifier): static
     {
-        $user = auth()->user();
+        $this->userQueryModifier = $modifier;
         
-        if (!$user) {
-            return false;
-        }
-        
-        // Verificar se o ID ou email do usuário está na lista de usuários autorizados
-        foreach ($this->authorizedUsers as $authorizedUser) {
-            if (
-                // Verificar se é um ID de usuário
-                (is_numeric($authorizedUser) && $user->id == $authorizedUser) ||
-                // Verificar se é um email
-                (is_string($authorizedUser) && $user->email == $authorizedUser)
-            ) {
-                return true;
-            }
-        }
-        
-        return false;
+        return $this;
     }
 
-    // Adicionar um novo método para desregistrar recursos se necessário
-    protected function unregisterResources(Panel $panel): void
+    public function getUserQueryModifier(): ?callable
     {
-        // Remover recursos do plugin
-        $panel->getResources = function () use ($panel) {
-            return collect($panel->getResources())->filter(function ($resource) {
-                return !str_contains($resource, 'Alessandronuunes\\TasksManagement');
-            })->toArray();
-        };
-        
-        // Remover widgets do plugin
-        $panel->getWidgets = function () use ($panel) {
-            return collect($panel->getWidgets())->filter(function ($widget) {
-                return !str_contains($widget, 'Alessandronuunes\\TasksManagement');
-            })->toArray();
-        };
+        return $this->userQueryModifier;
     }
 }

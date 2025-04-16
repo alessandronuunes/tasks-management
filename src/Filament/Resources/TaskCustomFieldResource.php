@@ -13,14 +13,17 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
+use Alessandronuunes\TasksManagement\Enums\CustomFieldType;
 use Alessandronuunes\TasksManagement\Models\TaskCustomField;
 use Alessandronuunes\TasksManagement\Traits\HasResourceConfig;
+use Alessandronuunes\TasksManagement\Traits\AuthorizedUsersTrait;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskCustomFieldResource\Pages;
-use Alessandronuunes\TasksManagement\Enums\CustomFieldType;
 
 class TaskCustomFieldResource extends Resource
 {
     use HasResourceConfig;
+
+    use AuthorizedUsersTrait;
     protected static ?string $model = TaskCustomField::class;
 
     public static function getLabel(): string
@@ -37,9 +40,10 @@ class TaskCustomFieldResource extends Resource
     {
         return __('tasks-management::navigation.parent.custom_fields');
     }
-
-    
-
+    public static function canViewAny(): bool
+    {
+        return self::isAuthorized();
+    }
     public static function form(Form $form): Form
     {
         return $form

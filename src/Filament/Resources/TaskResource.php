@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement\Filament\Resources;
 
-use Carbon\Carbon;
+
 use Filament\Forms;
 use Filament\Tables;
-use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -15,16 +14,18 @@ use Alessandronuunes\TasksManagement\Models\Task;
 use Alessandronuunes\TasksManagement\Enums\TaskStatus;
 use Alessandronuunes\TasksManagement\Enums\PriorityType;
 use Alessandronuunes\TasksManagement\Traits\HasResourceConfig;
+use Alessandronuunes\TasksManagement\Traits\AuthorizedUsersTrait;
+use Alessandronuunes\TasksManagement\Traits\UserQueryModifierTrait;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\Pages;
 use Alessandronuunes\TasksManagement\Filament\Forms\Components\CustomFields;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\RelationManagers\CommentsRelationManager;
-use Alessandronuunes\TasksManagement\Traits\AuthorizedUsersTrait;
 
 class TaskResource extends Resource
 {
     use HasResourceConfig;
     use AuthorizedUsersTrait;
-
+    use UserQueryModifierTrait;
+    
     protected static ?string $model = Task::class;
     public static function getLabel(): string
     {
@@ -87,7 +88,6 @@ class TaskResource extends Resource
                             ->required()
                             ->default(PriorityType::Low)
                             ->columnSpan(6),
-                        
                     ]),
                 Forms\Components\Grid::make()
                     ->columns(12)
@@ -108,7 +108,9 @@ class TaskResource extends Resource
                             ->preload(),
                         Forms\Components\Select::make('users')
                             ->label(__('tasks-management::fields.tasks.users'))
-                            ->relationship('users', 'name')
+                            ->relationship('users', 'name', function ($query) {
+                                return self::applyUserQueryModifier($query);
+                            })
                             ->multiple()
                             ->preload()
                             ->searchable()

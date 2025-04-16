@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement\Filament\Resources;
 
-use Alessandronuunes\TasksManagement\Models\TaskTag;
-use Alessandronuunes\TasksManagement\Traits\HasResourceConfig;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Alessandronuunes\TasksManagement\Models\TaskTag;
+use Alessandronuunes\TasksManagement\Traits\HasResourceConfig;
+use Alessandronuunes\TasksManagement\Traits\AuthorizedUsersTrait;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskTagResource\Pages;
 
 class TaskTagResource extends Resource
 {
     use HasResourceConfig;
-
+    use AuthorizedUsersTrait;
     protected static ?string $model = TaskTag::class;
     public static function getLabel(): string
     {
@@ -32,6 +33,10 @@ class TaskTagResource extends Resource
         return __('tasks-management::navigation.parent.task_tags');
     }
 
+    public static function canViewAny(): bool
+    {
+        return self::isAuthorized();
+    }
 
     public static function form(Form $form): Form
     {
