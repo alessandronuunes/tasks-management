@@ -15,4 +15,8 @@ return [
         'singular' => 'Custom Field',
         'plural' => 'Custom Fields',
     ],
+    'audits' => [
+        'singular' => 'Activity Log',
+        'plural' => 'Activity Logs',
+    ],
 ];

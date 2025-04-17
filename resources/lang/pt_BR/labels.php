@@ -15,4 +15,8 @@ return [
         'singular' => 'Campo Personalizado',
         'plural' => 'Campos Personalizados',
     ],
+    'audits' => [
+        'singular' => 'Log de Atividade',
+        'plural' => 'Logs de Atividade',
+    ],
 ];

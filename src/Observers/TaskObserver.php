@@ -4,29 +4,34 @@ declare(strict_types=1);
 
 namespace Alessandronuunes\TasksManagement\Observers;
 
-use Alessandronuunes\TasksManagement\Events\TaskCreatedEvent;
-use Alessandronuunes\TasksManagement\Events\TaskUpdatedEvent;
 use Alessandronuunes\TasksManagement\Models\Task;
+use Alessandronuunes\TasksManagement\Services\LoggingService;
 
 class TaskObserver
 {
     public function created(Task $task): void
     {
-        if ($task->users->isNotEmpty()) {
-            TaskCreatedEvent::dispatch($task);
-        }
+        LoggingService::log($task, 'created', $task->getAttributes(), []);
     }
 
     public function updated(Task $task): void
-    {
-        if ($task->wasChanged(['status', 'priority', 'ends_at'])) {
-            TaskUpdatedEvent::dispatch($task);
-        }
+    {   
+        LoggingService::log(
+            $task, 
+            'updated', 
+            $task->getChanges(),
+            $task->getOriginal()
+        );
     }
 
-    public function deleting(Task $task): void
+    public function deleted(Task $task): void
     {
-        $task->comments()->delete();
-        $task->users()->detach();
+        LoggingService::log($task, 'deleted', [], $task->getAttributes());
     }
+
+    public function restored(Task $task): void
+    {   
+        LoggingService::log($task, 'restored', $task->getAttributes(), []);
+    }
+
 }

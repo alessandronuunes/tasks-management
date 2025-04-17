@@ -26,4 +26,12 @@ return [
             'select' => 'Seleção',
         ],
     ],
+    'audits' => [
+        'events' => [
+            'created' => 'Criado',
+            'updated' => 'Atualizado',
+            'deleted' => 'Excluído',
+            'restored' => 'Restaurado',
+        ],
+    ],
 ];

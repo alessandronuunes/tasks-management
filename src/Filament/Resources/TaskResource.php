@@ -19,6 +19,7 @@ use Alessandronuunes\TasksManagement\Traits\UserQueryModifierTrait;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\Pages;
 use Alessandronuunes\TasksManagement\Filament\Forms\Components\CustomFields;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\RelationManagers\CommentsRelationManager;
+use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource\RelationManagers\AuditsRelationManager;
 
 class TaskResource extends Resource
 {
@@ -154,16 +155,33 @@ class TaskResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
+        $relations = [
             CommentsRelationManager::class,
         ];
+        
+        // Add the audits relation manager if logging is enabled
+        if (config('tasks-management.logging.enabled', false)) {
+            $relations[] = AuditsRelationManager::class;
+        }
+        
+        return $relations;
     }
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListTasks::route('/'),
+            'create' => Pages\CreateTask::route('/create'),
             'edit' => Pages\EditTask::route('/{record}/edit'),
         ];
+    }
+
+    // Remova o método mutateFormDataBeforeSave que foi adicionado anteriormente
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (isset($data['custom_fields'])) {
+            $this->customFields = $data['custom_fields'];
+        }
+        return $data;
     }
 }

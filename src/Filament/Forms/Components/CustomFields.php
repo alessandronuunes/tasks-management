@@ -72,24 +72,26 @@ class CustomFields extends Grid
 
     protected function makeSelectField(TaskCustomField $field): Select
     {
-        return Select::make("custom_fields.{$field->code}")
+        return Select::make("data.custom_fields.{$field->code}")
             ->label($field->name)
             ->options($field->options)
             ->required($field->is_required)
             ->placeholder($field->placeholder)
             ->helperText($field->help_text)
             ->hint($field->hint)
-            ->columnSpan($this->fieldColumnSpan);
+            ->columnSpan($this->fieldColumnSpan)
+            ->statePath("custom_fields.{$field->code}");
     }
 
     protected function makeTextField(TaskCustomField $field): TextInput
     {
-        return TextInput::make("custom_fields.{$field->code}")
+        return TextInput::make("data.custom_fields.{$field->code}")
             ->label($field->name)
             ->required($field->is_required)
             ->placeholder($field->placeholder)
             ->helperText($field->help_text)
             ->hint($field->hint)
-            ->columnSpan($this->fieldColumnSpan);
+            ->columnSpan($this->fieldColumnSpan)
+            ->statePath("custom_fields.{$field->code}");
     }
 }

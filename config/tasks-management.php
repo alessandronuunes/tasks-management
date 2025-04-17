@@ -28,6 +28,23 @@ return [
         'user' => App\Models\User::class,
         'team' => null,
         'custom_field_value' => \Alessandronuunes\TasksManagement\Models\TaskCustomFieldValue::class,
+        'activity_log' => null, // Modelo para logs de atividade (ex: \OwenIt\Auditing\Models\Audit::class)
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logging Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure logging settings for tasks.
+    |
+    */
+    'logging' => [
+        'enabled' => false, // Ativar ou desativar logs
+        'driver' => null,   // Driver de log (ex: 'laravel-auditing', 'spatie-activitylog')
+        'options' => [
+            'relation_name' => 'auditable', // Nome da relação para o modelo de log
+        ],
     ],
 
     /*

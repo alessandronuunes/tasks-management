@@ -11,7 +11,6 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
 use Alessandronuunes\TasksManagement\Enums\CustomFieldType;
 use Alessandronuunes\TasksManagement\Models\TaskCustomField;

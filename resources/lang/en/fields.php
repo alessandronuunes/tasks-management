@@ -59,4 +59,26 @@ return [
             'new' => 'New Comment',
         ],
     ],
+    'audits' => [
+        'event' => 'Event',
+        'user' => 'User',
+        'created_at' => 'Date',
+        'ip_address' => 'IP',
+        'field' => 'Field',
+        'old_value' => 'Previous Value',
+        'new_value' => 'New Value',
+        'sections' => [
+            'details' => 'Log Details',
+            'changes' => 'Changes',
+        ],
+        'columns' => [
+            'field' => 'Field',
+            'old_value' => 'Previous Value',
+            'new_value' => 'New Value',
+        ],
+        'messages' => [
+            'no_changes' => 'No changes recorded',
+            'system' => 'System',
+        ],
+    ],
 ];

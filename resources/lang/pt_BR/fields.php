@@ -67,4 +67,28 @@ return [
             'new' => 'Novo Comentário',
         ],
     ],
+    'audits' => [
+        'event' => 'Evento',
+        'user' => 'Usuário',
+        'created_at' => 'Data',
+        'ip_address' => 'IP',
+        'field' => 'Campo',
+        'old_value' => 'Valor Anterior',
+        'new_value' => 'Novo Valor',
+        'user_agent' => 'Agente do Usuário',
+        'url' => 'URL',
+        'sections' => [
+            'details' => 'Detalhes do Log',
+            'changes' => 'Alterações',
+        ],
+        'columns' => [
+            'field' => 'Campo',
+            'old_value' => 'Valor Anterior',
+            'new_value' => 'Novo Valor',
+        ],
+        'messages' => [
+            'no_changes' => 'Nenhuma alteração registrada',
+            'system' => 'Sistema',
+        ],
+    ],
 ];

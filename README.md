@@ -87,7 +87,16 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 TasksManagementPlugin::make()
                     ->authorizedUsers([ 'admin@admin.com' ])
-                    ->userQueryModifier(fn ($query) => $query->positionNotNull()),,
+                    ->userQueryModifier(fn ($query) => $query->positionNotNull()),
+                    ->authorizedUsers([
+                        'alessandro@vmixsolucoes.com.br',
+                        'jhosefer@vmixsolucoes.com.br',
+                        'rafael@vmixsolucoes.com.br',
+                    ])
+                    ->withLogging(
+                        'laravel-auditing', 
+                        \OwenIt\Auditing\Models\Audit::class,
+                        'auditable'
             ]);
     }
 }

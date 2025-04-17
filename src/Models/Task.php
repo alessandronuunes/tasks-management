@@ -15,11 +15,26 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
+use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 #[ObservedBy(TaskObserver::class)]
-class Task extends Model
+class Task extends Model implements Auditable
 {
     use SoftDeletes;
+    use AuditableTrait;
+    
+    // Adicionar um método boot para verificar se o modelo está configurado corretamente
+    protected static function boot()
+    {
+        parent::boot();
+        
+        Log::debug('Task::boot - Modelo Task inicializado', [
+            'implements_auditable' => is_a(new static, Auditable::class),
+            'uses_auditable_trait' => in_array(AuditableTrait::class, class_uses_recursive(static::class)),
+        ]);
+    }
 
     protected $fillable = [
         'type',
@@ -83,7 +98,10 @@ class Task extends Model
         return $this->morphTo();
     }
 
-    public function comments(): MorphMany
+    /**
+     * Get the comments for this task.
+     */
+    public function comments(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
         return $this->morphMany(config('tasks-management.models.comment'), 'commentable');
     }
@@ -128,5 +146,16 @@ class Task extends Model
             ['task_custom_field_id' => $field->id],
             ['value' => $value]
         );
+    }
+
+    /**
+     * Get the audit logs for this task.
+     */
+    public function audits(): MorphMany
+    {
+        $logModel = config('tasks-management.models.activity_log');
+        $relationName = config('tasks-management.logging.options.relation_name', 'auditable');
+        
+        return $this->morphMany($logModel, $relationName);
     }
 }
