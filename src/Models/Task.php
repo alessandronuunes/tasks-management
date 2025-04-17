@@ -25,15 +25,17 @@ class Task extends Model implements Auditable
     use SoftDeletes;
     use AuditableTrait;
     
-    // Adicionar um método boot para verificar se o modelo está configurado corretamente
     protected static function boot()
     {
         parent::boot();
         
-        Log::debug('Task::boot - Modelo Task inicializado', [
-            'implements_auditable' => is_a(new static, Auditable::class),
-            'uses_auditable_trait' => in_array(AuditableTrait::class, class_uses_recursive(static::class)),
-        ]);
+        // Só executa a lógica de auditoria se logging estiver habilitado
+        if (config('tasks-management.logging.enabled')) {
+            Log::debug('Task::boot - Modelo Task inicializado', [
+                'implements_auditable' => is_a(new static, Auditable::class),
+                'uses_auditable_trait' => in_array(AuditableTrait::class, class_uses_recursive(static::class)),
+            ]);
+        }
     }
 
     protected $fillable = [
@@ -153,7 +155,7 @@ class Task extends Model implements Auditable
      */
     public function audits(): MorphMany
     {
-        $logModel = config('tasks-management.models.activity_log');
+        $logModel = config('tasks-management.logging.options.implementation');
         $relationName = config('tasks-management.logging.options.relation_name', 'auditable');
         
         return $this->morphMany($logModel, $relationName);

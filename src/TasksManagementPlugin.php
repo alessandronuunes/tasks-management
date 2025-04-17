@@ -11,7 +11,6 @@ use Alessandronuunes\TasksManagement\Filament\Resources\TaskResource;
 use Alessandronuunes\TasksManagement\Filament\Resources\TaskTagResource;
 use Alessandronuunes\TasksManagement\Filament\Widgets\LatestTasksWidget;
 use Alessandronuunes\TasksManagement\Filament\Widgets\TasksOverviewWidget;
-use Illuminate\Support\Facades\Log;
 
 class TasksManagementPlugin implements Plugin
 {
@@ -83,25 +82,14 @@ class TasksManagementPlugin implements Plugin
      */
     public function withLogging(string $driver, string $logModel, string $relationName = 'auditable'): static
     {
-        Log::debug('TasksManagementPlugin::withLogging - Configurando logging', [
-            'driver' => $driver,
-            'logModel' => $logModel,
-            'relationName' => $relationName,
-        ]);
+        if (!config('tasks-management.logging.enabled')) {
+            return $this;
+        }
         
         config([
-            'tasks-management.logging.enabled' => true,
             'tasks-management.logging.driver' => $driver,
             'tasks-management.models.activity_log' => $logModel,
             'tasks-management.logging.options.relation_name' => $relationName,
-        ]);
-        
-        // Verificar se as configurações foram aplicadas
-        Log::debug('TasksManagementPlugin::withLogging - Configurações aplicadas', [
-            'enabled' => config('tasks-management.logging.enabled'),
-            'driver' => config('tasks-management.logging.driver'),
-            'logModel' => config('tasks-management.models.activity_log'),
-            'relationName' => config('tasks-management.logging.options.relation_name'),
         ]);
         
         return $this;

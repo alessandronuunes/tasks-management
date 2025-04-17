@@ -40,10 +40,18 @@ return [
     |
     */
     'logging' => [
-        'enabled' => false, // Ativar ou desativar logs
-        'driver' => null,   // Driver de log (ex: 'laravel-auditing', 'spatie-activitylog')
+        'enabled' => true,
+        'driver' => 'laravel-auditing',
         'options' => [
-            'relation_name' => 'auditable', // Nome da relação para o modelo de log
+            'relation_name' => 'auditable',
+            'implementation' => \OwenIt\Auditing\Models\Audit::class,
+            'user_morph_prefix' => 'user',
+            'resolver' => [
+                'user' => \OwenIt\Auditing\Resolvers\UserResolver::class,
+                'ip_address' => \OwenIt\Auditing\Resolvers\IpAddressResolver::class,
+                'user_agent' => \OwenIt\Auditing\Resolvers\UserAgentResolver::class,
+                'url' => \OwenIt\Auditing\Resolvers\UrlResolver::class,
+            ],
         ],
     ],
 

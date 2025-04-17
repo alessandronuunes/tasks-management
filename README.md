@@ -72,6 +72,25 @@ To enable team support, update your configuration:
     'team' => App\Models\Team::class,
 ]
  ```
+
+ to enable log activity in logs in laravel-auditing:
+ ```php
+'logging' => [
+        'enabled' => true,
+        'driver' => 'laravel-auditing',
+        'options' => [
+            'relation_name' => 'auditable',
+            'implementation' => \OwenIt\Auditing\Models\Audit::class,
+            'user_morph_prefix' => 'user',
+            'resolver' => [
+                'user' => \OwenIt\Auditing\Resolvers\UserResolver::class,
+                'ip_address' => \OwenIt\Auditing\Resolvers\IpAddressResolver::class,
+                'user_agent' => \OwenIt\Auditing\Resolvers\UserAgentResolver::class,
+                'url' => \OwenIt\Auditing\Resolvers\UrlResolver::class,
+            ],
+        ],
+    ],
+ ```
 ### Adding to Filament
 Add the plugin to your Filament panel provider:
 
@@ -93,10 +112,6 @@ class AdminPanelProvider extends PanelProvider
                         'jhosefer@vmixsolucoes.com.br',
                         'rafael@vmixsolucoes.com.br',
                     ])
-                    ->withLogging(
-                        'laravel-auditing', 
-                        \OwenIt\Auditing\Models\Audit::class,
-                        'auditable'
             ]);
     }
 }

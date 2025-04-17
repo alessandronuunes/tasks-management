@@ -14,6 +14,10 @@ use Filament\Infolists\Components\Tabs;
 
 class AuditsRelationManager extends RelationManager
 {
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return config('tasks-management.logging.enabled', false);
+    }
     protected static string $relationship = 'audits';
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
