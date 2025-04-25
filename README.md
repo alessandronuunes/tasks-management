@@ -2,6 +2,7 @@
 
 Task management system for Laravel with Filament support, which includes features for user assignment, comments, priorities, statuses, and task types kanban.
 
+
 ## Features
 
 - Task management with CRUD operations
