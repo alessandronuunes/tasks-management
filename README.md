@@ -1,6 +1,6 @@
 # Laravel Tasks Management
 
-Task management system for Laravel with Filament support, which includes features for user assignment, comments, priorities, statuses, and task types.
+Task management system for Laravel with Filament support, which includes features for user assignment, comments, priorities, statuses, and task types kanban.
 
 ## Features
 
